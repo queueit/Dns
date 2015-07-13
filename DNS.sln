@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNS", "src\DNS.csproj", "{DA5D978F-4AD3-4F0C-8050-BD157D1B4821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "test\Tests\Tests.csproj", "{1718A5C8-16CB-48EE-A6C5-6B5AB8B24724}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA5D978F-4AD3-4F0C-8050-BD157D1B4821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA5D978F-4AD3-4F0C-8050-BD157D1B4821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA5D978F-4AD3-4F0C-8050-BD157D1B4821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA5D978F-4AD3-4F0C-8050-BD157D1B4821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1718A5C8-16CB-48EE-A6C5-6B5AB8B24724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1718A5C8-16CB-48EE-A6C5-6B5AB8B24724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1718A5C8-16CB-48EE-A6C5-6B5AB8B24724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1718A5C8-16CB-48EE-A6C5-6B5AB8B24724}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
