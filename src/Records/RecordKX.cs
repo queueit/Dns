@@ -39,12 +39,18 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordKX : Record, IComparable
-	{
-		public ushort PREFERENCE;
-		public string EXCHANGER;
+    public interface IRecordKX : IRecord
+    {
+        ushort PREFERENCE { get; }
+        string EXCHANGER { get; }
+    }
 
-		public RecordKX(RecordReader rr)
+    public class RecordKX : Record, IComparable, IRecordKX
+    {
+		public ushort PREFERENCE { get; private set; }
+        public string EXCHANGER { get; private set; }
+
+        public RecordKX(RecordReader rr)
 		{
 			PREFERENCE = rr.ReadUInt16();
 			EXCHANGER = rr.ReadDomainName();

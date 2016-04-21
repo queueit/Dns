@@ -7,11 +7,16 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordAPL : Record
-	{
-		public byte[] RDATA;
+    public interface IRecordAPL : IRecord
+    {
+        byte[] RDATA { get; }
+    }
 
-		public RecordAPL(RecordReader rr)
+    public class RecordAPL : Record, IRecordAPL
+    {
+		public byte[] RDATA { get; private set; }
+
+        public RecordAPL(RecordReader rr)
 		{
 			// re-read length
 			ushort RDLENGTH = rr.ReadUInt16(-2);

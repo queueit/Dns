@@ -44,12 +44,18 @@ namespace Yamool.Net.DNS.Records
     using System;
     using System.Text;
 
-	public class RecordNXT : Record
-	{
-		public string NEXTDOMAINNAME;
-		public byte[] BITMAP;
+    public interface IRecordNXT : IRecord
+    {
+        string NEXTDOMAINNAME { get; }
+        byte[] BITMAP { get; }
+    }
 
-		public RecordNXT(RecordReader rr)
+    public class RecordNXT : Record, IRecordNXT
+    {
+		public string NEXTDOMAINNAME { get; private set; }
+        public byte[] BITMAP { get; private set; }
+
+        public RecordNXT(RecordReader rr)
 		{
 			ushort length = rr.ReadUInt16(-2);
 			NEXTDOMAINNAME = rr.ReadDomainName();

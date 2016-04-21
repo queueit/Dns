@@ -22,17 +22,26 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordA : Record
-	{
-		public System.Net.IPAddress Address;
+    public interface IRecordA : IRecord
+    {
+        System.Net.IPAddress Address { get; }
+    }
+
+    public class RecordA : Record, IRecordA
+    {
+		public System.Net.IPAddress Address { get; private set; }
 
 		public RecordA(RecordReader rr)
 		{
-			System.Net.IPAddress.TryParse(string.Format("{0}.{1}.{2}.{3}",
+		    System.Net.IPAddress ipAddress = null;
+
+            System.Net.IPAddress.TryParse(string.Format("{0}.{1}.{2}.{3}",
 				rr.ReadByte(),
 				rr.ReadByte(),
 				rr.ReadByte(),
-				rr.ReadByte()), out this.Address);
+				rr.ReadByte()), out ipAddress);
+
+		    this.Address = ipAddress;
 		}
 
 		public override string ToString()

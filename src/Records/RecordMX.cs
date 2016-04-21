@@ -31,12 +31,18 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordMX : Record, IComparable
-	{
-		public ushort PREFERENCE;
-		public string EXCHANGE;
+    public interface IRecordMX : IRecord
+    {
+        ushort PREFERENCE { get; }
+        string EXCHANGE { get; }
+    }
 
-		public RecordMX(RecordReader rr)
+    public class RecordMX : Record, IComparable, IRecordMX
+    {
+		public ushort PREFERENCE { get; private set; }
+        public string EXCHANGE { get; private set; }
+
+        public RecordMX(RecordReader rr)
 		{
 			PREFERENCE = rr.ReadUInt16();
 			EXCHANGE = rr.ReadDomainName();

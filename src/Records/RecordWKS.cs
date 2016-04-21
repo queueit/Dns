@@ -52,13 +52,20 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordWKS : Record
-	{
-		public string ADDRESS;
-		public int PROTOCOL;
-		public byte[] BITMAP;
+    public interface IRecordWKS : IRecord
+    {
+        string ADDRESS { get; }
+        int PROTOCOL { get; }
+        byte[] BITMAP { get; }
+    }
 
-		public RecordWKS(RecordReader rr)
+    public class RecordWKS : Record, IRecordWKS
+    {
+		public string ADDRESS { get; private set; }
+        public int PROTOCOL { get; private set; }
+        public byte[] BITMAP { get; private set; }
+
+        public RecordWKS(RecordReader rr)
 		{
 			ushort length = rr.ReadUInt16(-2);
 			ADDRESS = string.Format("{0}.{1}.{2}.{3}",

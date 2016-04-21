@@ -75,12 +75,18 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordISDN : Record
-	{
-		public string ISDNADDRESS;
-		public string SA;
+    public interface IRecordISDN : IRecord
+    {
+        string ISDNADDRESS { get; }
+        string SA { get; }
+    }
 
-		public RecordISDN(RecordReader rr)
+    public class RecordISDN : Record, IRecordISDN
+    {
+		public string ISDNADDRESS { get; private set; }
+        public string SA { get; private set; }
+
+        public RecordISDN(RecordReader rr)
 		{
 			ISDNADDRESS = rr.ReadString();
 			SA = rr.ReadString();

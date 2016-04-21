@@ -49,16 +49,26 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordNAPTR : Record
-	{
-		public ushort ORDER;
-		public ushort PREFERENCE;
-		public string FLAGS;
-		public string SERVICES;
-		public string REGEXP;
-		public string REPLACEMENT;
+    public interface IRecordNAPTR : IRecord
+    {
+        ushort ORDER { get; }
+        ushort PREFERENCE { get; }
+        string FLAGS { get; }
+        string SERVICES { get; }
+        string REGEXP { get; }
+        string REPLACEMENT { get; }
+    }
 
-		public RecordNAPTR(RecordReader rr)
+    public class RecordNAPTR : Record, IRecordNAPTR
+    {
+		public ushort ORDER { get; private set; }
+        public ushort PREFERENCE { get; private set; }
+        public string FLAGS { get; private set; }
+        public string SERVICES { get; private set; }
+        public string REGEXP { get; private set; }
+        public string REPLACEMENT { get; private set; }
+
+        public RecordNAPTR(RecordReader rr)
 		{
 			ORDER = rr.ReadUInt16();
 			PREFERENCE = rr.ReadUInt16();

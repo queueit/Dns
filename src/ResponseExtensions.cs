@@ -14,73 +14,73 @@ namespace Yamool.Net.DNS
         /// <summary>
         /// List of PTRRecord in Response.Answers
         /// </summary>
-        public static RecordPTR[] RecordsPTR(this Response response)
+        public static IRecordPTR[] RecordsPTR(this IResponse response)
         {
-            return response.GetAnswerRecords<RecordPTR>(TYPE.PTR);
+            return response.GetAnswerRecords<IRecordPTR>(TYPE.PTR);
         }
 
         /// <summary>
         /// List of ARecord in Response.Answers
         /// </summary>
-        public static RecordA[] RecordsA(this Response response)
+        public static IRecordA[] RecordsA(this IResponse response)
         {
-            return response.GetAnswerRecords<RecordA>(TYPE.A);
+            return response.GetAnswerRecords<IRecordA>(TYPE.A);
         }
 
 
         /// <summary>
         /// List of TXTRecord in Response.Answers
         /// </summary>
-        public static RecordTXT[] RecordsTXT(this Response response)
+        public static IRecordTXT[] RecordsTXT(this IResponse response)
         {
-            return response.GetAnswerRecords<RecordTXT>(TYPE.TXT);                
+            return response.GetAnswerRecords<IRecordTXT>(TYPE.TXT);                
         }
 
 
         /// <summary>
         /// List of CNAMERecord in Response.Answers
         /// </summary>
-        public static RecordCNAME[] RecordsCNAME(this Response response)
+        public static IRecordCNAME[] RecordsCNAME(this IResponse response)
         {
-            return response.GetAnswerRecords<RecordCNAME>(TYPE.CNAME);                
+            return response.GetAnswerRecords<IRecordCNAME>(TYPE.CNAME);                
         }
 
         /// <summary>
         /// List of AAAARecord in Response.Answers
         /// </summary>
-        public static RecordAAAA[] RecordsAAAA(this Response response)
+        public static IRecordAAAA[] RecordsAAAA(this IResponse response)
         {
-            return response.GetAnswerRecords<RecordAAAA>(TYPE.AAAA);             
+            return response.GetAnswerRecords<IRecordAAAA>(TYPE.AAAA);             
         }
 
         /// <summary>
         /// List of NSRecord in Response.Answers
         /// </summary>
-        public static RecordNS[] RecordsNS(this Response response)
+        public static IRecordNS[] RecordsNS(this IResponse response)
         {
-            return response.GetAnswerRecords<RecordNS>(TYPE.NS);  
+            return response.GetAnswerRecords<IRecordNS>(TYPE.NS);  
         }
 
         /// <summary>
         /// List of SOARecord in Response.Answers
         /// </summary>
-        public static RecordSOA[] RecordsSOA(this Response response)
+        public static IRecordSOA[] RecordsSOA(this IResponse response)
         {
-            return response.GetAnswerRecords<RecordSOA>(TYPE.SOA);  
+            return response.GetAnswerRecords<IRecordSOA>(TYPE.SOA);  
         }
 
-        public static RR[] RecordsRR(this Response response)
+        public static IRR[] RecordsRR(this IResponse response)
         {
-            var list = new List<RR>();
-            foreach (RR rr in response.Answers)
+            var list = new List<IRR>();
+            foreach (IRR rr in response.Answers)
             {
                 list.Add(rr);
             }
-            foreach (RR rr in response.Authorities)
+            foreach (IRR rr in response.Authorities)
             {
                 list.Add(rr);
             }
-            foreach (RR rr in response.Additionals)
+            foreach (IRR rr in response.Additionals)
             {
                 list.Add(rr);
             }

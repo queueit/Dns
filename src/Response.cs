@@ -46,18 +46,74 @@ namespace Yamool.Net.DNS
      */
     #endregion
 
+    public interface IResponse
+    {
+        /// <summary>
+        /// Return a specified TYPE of Record list.
+        /// </summary>
+        /// <typeparam name="T">Return <see cref="Record"/> type.</typeparam>
+        /// <param name="recordType">The record TYPE</param>
+        /// <returns>Return a list of Record</returns>
+        T[] GetAnswerRecords<T>(TYPE recordType) where T : IRecord;
+
+        /// <summary>
+        /// The Header of response.
+        /// </summary>
+        Header Header { get; }
+
+        /// <summary>
+        /// Return a response code for the dns query.
+        /// </summary>
+        RCODE ResponseCode { get; }
+
+        /// <summary>
+        /// The Server which delivered this response
+        /// </summary>
+        EndPoint Server { get; }
+
+        /// <summary>
+        /// List of Question records
+        /// </summary>
+        List<IQuestion> Questions { get; }
+
+        /// <summary>
+        /// List of AnswerRR records
+        /// </summary>
+        List<IAnswerRR> Answers { get; }
+
+        /// <summary>
+        /// List of AuthorityRR records
+        /// </summary>
+        List<IAuthorityRR> Authorities { get; }
+
+        /// <summary>
+        /// List of AdditionalRR records
+        /// </summary>
+        List<IAdditionalRR> Additionals { get; }
+
+        /// <summary>
+        /// TimeStamp when inited.
+        /// </summary>
+        DateTime TimeStamp { get; }
+
+        /// <summary>
+        /// The message length of response.
+        /// </summary>
+        int MessageSize { get; }
+    }
+
     /// <summary>
     /// The response of the dns question from server
     /// </summary>
-    public class Response
+    public class Response : IResponse
     {
         public Response()
         {
             this.Server = new IPEndPoint(0, 0);
-            this.Questions = new List<Question>();
-            this.Answers = new List<AnswerRR>();
-            this.Authorities = new List<AuthorityRR>();
-            this.Additionals = new List<AdditionalRR>();
+            this.Questions = new List<IQuestion>();
+            this.Answers = new List<IAnswerRR>();
+            this.Authorities = new List<IAuthorityRR>();
+            this.Additionals = new List<IAdditionalRR>();
             this.Header = new Header();
             this.TimeStamp = DateTime.Now;
         }
@@ -70,23 +126,23 @@ namespace Yamool.Net.DNS
             this.Header = new Header(rr);
             this.MessageSize = data.Length;
 
-            this.Questions = new List<Question>(this.Header.QDCOUNT);
+            this.Questions = new List<IQuestion>(this.Header.QDCOUNT);
             for (var i = 0; i < this.Header.QDCOUNT; i++)
             {
                 this.Questions.Add(new Question(rr));
             }
 
-            this.Answers = new List<AnswerRR>(this.Header.ANCOUNT);
+            this.Answers = new List<IAnswerRR>(this.Header.ANCOUNT);
             for (var i = 0; i < this.Header.ANCOUNT; i++)
             {
                 this.Answers.Add(new AnswerRR(rr));
             }
-            this.Authorities = new List<AuthorityRR>(this.Header.NSCOUNT);
+            this.Authorities = new List<IAuthorityRR>(this.Header.NSCOUNT);
             for (var i = 0; i < this.Header.NSCOUNT; i++)
             {
                 this.Authorities.Add(new AuthorityRR(rr));
             }
-            this.Additionals = new List<AdditionalRR>(this.Header.ARCOUNT);
+            this.Additionals = new List<IAdditionalRR>(this.Header.ARCOUNT);
             for (var i = 0; i < this.Header.ARCOUNT; i++)
             {
                 this.Additionals.Add(new AdditionalRR(rr));
@@ -99,7 +155,7 @@ namespace Yamool.Net.DNS
         /// <typeparam name="T">Return <see cref="Record"/> type.</typeparam>
         /// <param name="recordType">The record TYPE</param>
         /// <returns>Return a list of Record</returns>
-        public T[] GetAnswerRecords<T>(TYPE recordType) where T : Record
+        public T[] GetAnswerRecords<T>(TYPE recordType) where T : IRecord
         {
             var list = new List<T>();
             foreach (var answerRR in this.Answers)
@@ -144,7 +200,7 @@ namespace Yamool.Net.DNS
         /// <summary>
         /// List of Question records
         /// </summary>
-        public List<Question> Questions
+        public List<IQuestion> Questions
         {
             get;
             private set;
@@ -153,7 +209,7 @@ namespace Yamool.Net.DNS
         /// <summary>
         /// List of AnswerRR records
         /// </summary>
-        public List<AnswerRR> Answers
+        public List<IAnswerRR> Answers
         {
             get;
             private set;
@@ -162,7 +218,7 @@ namespace Yamool.Net.DNS
         /// <summary>
         /// List of AuthorityRR records
         /// </summary>
-        public List<AuthorityRR> Authorities
+        public List<IAuthorityRR> Authorities
         {
             get;
             private set;
@@ -171,7 +227,7 @@ namespace Yamool.Net.DNS
         /// <summary>
         /// List of AdditionalRR records
         /// </summary>
-        public List<AdditionalRR> Additionals
+        public List<IAdditionalRR> Additionals
         {
             get;
             private set;

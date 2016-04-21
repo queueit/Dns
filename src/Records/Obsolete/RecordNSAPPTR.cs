@@ -47,11 +47,16 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordNSAPPTR : Record
-	{
-		public string OWNER;
+    public interface IRecordNSAPPTR : IRecord
+    {
+        string OWNER { get; }
+    }
 
-		public RecordNSAPPTR(RecordReader rr)
+    public class RecordNSAPPTR : Record, IRecordNSAPPTR
+    {
+		public string OWNER { get; private set; }
+
+        public RecordNSAPPTR(RecordReader rr)
 		{
 			OWNER = rr.ReadString();
 		}

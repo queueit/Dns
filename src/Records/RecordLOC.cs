@@ -104,17 +104,28 @@ namespace Yamool.Net.DNS.Records
     using System;
     using System.Text;
 
-	public class RecordLOC : Record
-	{
-		public byte VERSION;
-		public byte SIZE;
-		public byte HORIZPRE;
-		public byte VERTPRE;
-		public UInt32 LATITUDE;
-		public UInt32 LONGITUDE;
-		public UInt32 ALTITUDE;
+    public interface IRecordLOC : IRecord
+    {
+        byte VERSION { get; }
+        byte SIZE { get; }
+        byte HORIZPRE { get; }
+        byte VERTPRE { get; }
+        UInt32 LATITUDE { get; }
+        UInt32 LONGITUDE { get; }
+        UInt32 ALTITUDE { get; }
+    }
 
-		private string SizeToString(byte s)
+    public class RecordLOC : Record, IRecordLOC
+    {
+		public byte VERSION { get; private set; }
+        public byte SIZE { get; private set; }
+        public byte HORIZPRE { get; private set; }
+        public byte VERTPRE { get; private set; }
+        public UInt32 LATITUDE { get; private set; }
+        public UInt32 LONGITUDE { get; private set; }
+        public UInt32 ALTITUDE { get; private set; }
+
+        private string SizeToString(byte s)
 		{
 			string strUnit = "cm";
 			int intBase = s >> 4;

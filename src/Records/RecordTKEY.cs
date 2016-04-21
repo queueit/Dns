@@ -29,19 +29,32 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordTKEY : Record
-	{
-		public string ALGORITHM;
-		public UInt32 INCEPTION;
-		public UInt32 EXPIRATION;
-		public UInt16 MODE;
-		public UInt16 ERROR;
-		public UInt16 KEYSIZE;
-		public byte[] KEYDATA;
-		public UInt16 OTHERSIZE;
-		public byte[] OTHERDATA;
+    public interface IRecordTKEY : IRecord
+    {
+        string ALGORITHM { get; }
+        UInt32 INCEPTION { get; }
+        UInt32 EXPIRATION { get; }
+        UInt16 MODE { get; }
+        UInt16 ERROR { get; }
+        UInt16 KEYSIZE { get; }
+        byte[] KEYDATA { get; }
+        UInt16 OTHERSIZE { get; }
+        byte[] OTHERDATA { get; }
+    }
 
-		public RecordTKEY(RecordReader rr)
+    public class RecordTKEY : Record, IRecordTKEY
+    {
+		public string ALGORITHM { get; private set; }
+        public UInt32 INCEPTION { get; private set; }
+        public UInt32 EXPIRATION { get; private set; }
+        public UInt16 MODE { get; private set; }
+        public UInt16 ERROR { get; private set; }
+        public UInt16 KEYSIZE { get; private set; }
+        public byte[] KEYDATA { get; private set; }
+        public UInt16 OTHERSIZE { get; private set; }
+        public byte[] OTHERDATA { get; private set; }
+
+        public RecordTKEY(RecordReader rr)
 		{
 			ALGORITHM = rr.ReadDomainName();
 			INCEPTION = rr.ReadUInt32();

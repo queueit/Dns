@@ -65,7 +65,7 @@ namespace Yamool.Net.DNS
             }
         }
 
-        public Record ReadRecord(TYPE type, int Length)
+        public IRecord ReadRecord(TYPE type, int Length)
         {
             switch (type)
             {

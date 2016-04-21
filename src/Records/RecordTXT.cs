@@ -25,9 +25,14 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordTXT : Record
-	{
-		public string TXT;
+    public interface IRecordTXT : IRecord
+    {
+        string TXT { get; }
+    }
+
+    public class RecordTXT : Record, IRecordTXT
+    {
+		public string TXT { get; private set; }
 
 		public RecordTXT(RecordReader rr)
 		{

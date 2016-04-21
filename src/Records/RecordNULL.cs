@@ -22,11 +22,16 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordNULL : Record
-	{
-		public byte[] ANYTHING;
+    public interface IRecordNULL : IRecord
+    {
+        byte[] ANYTHING { get; }
+    }
 
-		public RecordNULL(RecordReader rr)
+    public class RecordNULL : Record, IRecordNULL
+    {
+		public byte[] ANYTHING { get; private set; }
+
+        public RecordNULL(RecordReader rr)
 		{
 			rr.Position -= 2;
 			// re-read length

@@ -39,17 +39,30 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordSIG : Record
-	{
-		public UInt16 TYPECOVERED;
-		public byte ALGORITHM;
-		public byte LABELS;
-		public UInt32 ORIGINALTTL;
-		public UInt32 SIGNATUREEXPIRATION;
-		public UInt32 SIGNATUREINCEPTION;
-		public UInt16 KEYTAG;
-		public string SIGNERSNAME;
-		public string SIGNATURE;
+    public interface IRecordSIG : IRecord
+    {
+        UInt16 TYPECOVERED { get; }
+        byte ALGORITHM { get; }
+        byte LABELS { get; }
+        UInt32 ORIGINALTTL { get; }
+        UInt32 SIGNATUREEXPIRATION { get; }
+        UInt32 SIGNATUREINCEPTION { get; }
+        UInt16 KEYTAG { get; }
+        string SIGNERSNAME { get; }
+        string SIGNATURE { get; }
+    }
+
+    public class RecordSIG : Record, IRecordSIG
+    {
+		public UInt16 TYPECOVERED { get; private set; }
+        public byte ALGORITHM { get; private set; }
+        public byte LABELS { get; private set; }
+        public UInt32 ORIGINALTTL { get; private set; }
+        public UInt32 SIGNATUREEXPIRATION { get; private set; }
+        public UInt32 SIGNATUREINCEPTION { get; private set; }
+        public UInt16 KEYTAG { get; private set; }
+        public string SIGNERSNAME { get; private set; }
+        public string SIGNATURE { get; private set; }
 
 		public RecordSIG(RecordReader rr)
 		{

@@ -16,22 +16,32 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordAAAA : Record
-	{
-		public System.Net.IPAddress Address;
+    public interface IRecordAAAA : IRecord
+    {
+        System.Net.IPAddress Address { get; }
+    }
+
+    public class RecordAAAA : Record, IRecordAAAA
+    {
+		public System.Net.IPAddress Address { get; private set; }
 
 		public RecordAAAA(RecordReader rr)
 		{
-			System.Net.IPAddress.TryParse(
-				string.Format("{0:x}:{1:x}:{2:x}:{3:x}:{4:x}:{5:x}:{6:x}:{7:x}",
-				rr.ReadUInt16(),
-				rr.ReadUInt16(),
-				rr.ReadUInt16(),
-				rr.ReadUInt16(),
-				rr.ReadUInt16(),
-				rr.ReadUInt16(),
-				rr.ReadUInt16(),
-				rr.ReadUInt16()), out this.Address);
+		    System.Net.IPAddress ipAddress = null;
+
+		    if (System.Net.IPAddress.TryParse(
+		        string.Format("{0:x}:{1:x}:{2:x}:{3:x}:{4:x}:{5:x}:{6:x}:{7:x}",
+		            rr.ReadUInt16(),
+		            rr.ReadUInt16(),
+		            rr.ReadUInt16(),
+		            rr.ReadUInt16(),
+		            rr.ReadUInt16(),
+		            rr.ReadUInt16(),
+		            rr.ReadUInt16(),
+		            rr.ReadUInt16()), out ipAddress))
+		    {
+		        this.Address = ipAddress;
+		    }
 		}
 
 		public override string ToString()

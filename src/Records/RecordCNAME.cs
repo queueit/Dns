@@ -27,9 +27,14 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordCNAME : Record
-	{
-		public string CNAME;
+    public interface IRecordCNAME : IRecord
+    {
+        string CNAME { get; }
+    }
+
+    public class RecordCNAME : Record, IRecordCNAME
+    {
+		public string CNAME { get; private set; }
 
 		public RecordCNAME(RecordReader rr)
 		{

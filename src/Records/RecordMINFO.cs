@@ -38,12 +38,18 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordMINFO : Record
-	{
-		public string RMAILBX;
-		public string EMAILBX;
+    public interface IRecordMINFO : IRecord
+    {
+        string RMAILBX { get; }
+        string EMAILBX { get; }
+    }
 
-		public RecordMINFO(RecordReader rr)
+    public class RecordMINFO : Record, IRecordMINFO
+    {
+		public string RMAILBX { get; private set; }
+        public string EMAILBX { get; private set; }
+
+        public RecordMINFO(RecordReader rr)
 		{
 			RMAILBX = rr.ReadDomainName();
 			EMAILBX = rr.ReadDomainName();

@@ -31,9 +31,14 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordNS : Record
-	{
-		public string NSDNAME;
+    public interface IRecordNS : IRecord
+    {
+        string NSDNAME { get; }
+    }
+
+    public class RecordNS : Record, IRecordNS
+    {
+		public string NSDNAME { get; private set; }
 
 		public RecordNS(RecordReader rr)
 		{

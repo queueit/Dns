@@ -49,11 +49,34 @@ namespace Yamool.Net.DNS
 					For example, the QCLASS field is IN for the Internet.
 	*/
     #endregion
-    
+
+    public interface IQuestion
+    {
+        /// <summary>
+        /// The domain name represented as a sequence of labels.
+        /// </summary>
+        string QName { get; set; }
+
+        /// <summary>
+        /// The type of the query.
+        /// </summary>
+        QTYPE QType { get; set; }
+
+        /// <summary>
+        /// The class of the query
+        /// </summary>
+        QCLASS QClass { get; set; }
+
+        /// <summary>
+        /// Represents the question as a byte array
+        /// </summary>
+        byte[] Data { get; }
+    }
+
     /// <summary>
     /// The question section of message.
     /// </summary>
-    public class Question
+    public class Question : IQuestion
     {      
         private Question() { }
 

@@ -64,43 +64,79 @@ namespace Yamool.Net.DNS
 	*/
     #endregion
 
-    /// <summary>
-    /// The Resource Record class.
-    /// </summary>
-    public abstract class RR
+    public interface IRR
     {
         /// <summary>
         /// The domain name to which this resource record pertains.
         /// </summary>
-        public string NAME;
+        string NAME { get; }
 
         /// <summary>
         /// Specifies type of resource record
         /// </summary>
         /// <remarks>This field specifies the meaning of the data in the RDATA  field.</remarks>
-        public TYPE TYPE;
+        TYPE TYPE { get; }
 
         /// <summary>
         /// Specifies type class of resource record, mostly IN but can be CS, CH or HS 
         /// </summary>
-        public CLASS CLASS;
+        CLASS CLASS { get; }
 
         /// <summary>
         /// An unsigned 16 bit integer that specifies the length in octets of the RDATA field.
         /// </summary>
-        public ushort RDLENGTH;
+        ushort RDLENGTH { get; }
 
         /// <summary>
         /// One of the Record* classes
         /// </summary>
-        public Record RECORD;
+        IRecord RECORD { get; }
 
         /// <summary>
         /// Specifies the time interval (in seconds) that the resource record may be cached before it should be discarded.
         /// </summary>
         /// <remarks>Zero values are interpreted to mean that the RR can only be used for the 
         /// transaction in progress, and should not be cached.</remarks>
-        public uint TTL;
+        uint TTL { get; }
+    }
+
+    /// <summary>
+    /// The Resource Record class.
+    /// </summary>
+    public abstract class RR : IRR
+    {
+        /// <summary>
+        /// The domain name to which this resource record pertains.
+        /// </summary>
+        public string NAME { get; private set; }
+
+        /// <summary>
+        /// Specifies type of resource record
+        /// </summary>
+        /// <remarks>This field specifies the meaning of the data in the RDATA  field.</remarks>
+        public TYPE TYPE { get; private set; }
+
+        /// <summary>
+        /// Specifies type class of resource record, mostly IN but can be CS, CH or HS 
+        /// </summary>
+        public CLASS CLASS { get; private set; }
+
+        /// <summary>
+        /// An unsigned 16 bit integer that specifies the length in octets of the RDATA field.
+        /// </summary>
+        public ushort RDLENGTH { get; private set; }
+
+        /// <summary>
+        /// One of the Record* classes
+        /// </summary>
+        public IRecord RECORD { get; private set; }
+
+        /// <summary>
+        /// Specifies the time interval (in seconds) that the resource record may be cached before it should be discarded.
+        /// </summary>
+        /// <remarks>Zero values are interpreted to mean that the RR can only be used for the 
+        /// transaction in progress, and should not be cached.</remarks>
+        public uint TTL { get; private set; }
 
         public RR(RecordReader rr)
 		{			
@@ -124,26 +160,38 @@ namespace Yamool.Net.DNS
         }
     }
 
+    public interface IAnswerRR : IRR
+    {
+    }
+
     /// <summary>
     /// The answering for the question.
     /// </summary>
-    public class AnswerRR : RR
+    public class AnswerRR : RR, IAnswerRR
     {
         public AnswerRR(RecordReader rr) : base(rr) { }
+    }
+
+    public interface IAuthorityRR : IRR
+    {
     }
 
     /// <summary>
     /// The authoritative name server. 
     /// </summary>
-    public class AuthorityRR : RR
+    public class AuthorityRR : RR, IAuthorityRR
     {
         public AuthorityRR(RecordReader rr) : base(rr) { }
+    }
+
+    public interface IAdditionalRR : IRR
+    {
     }
 
     /// <summary>
     /// The additional which relate to the query, but are not strictly answers for the question.
     /// </summary>
-    public class AdditionalRR : RR
+    public class AdditionalRR : RR, IAdditionalRR
     {
         public AdditionalRR(RecordReader rr) : base(rr) { }
     }

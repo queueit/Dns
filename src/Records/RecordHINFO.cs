@@ -30,12 +30,18 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordHINFO : Record
-	{
-		public string CPU;
-		public string OS;
+    public interface IRecordHINFO : IRecord
+    {
+        string CPU { get; }
+        string OS { get; }
+    }
 
-		public RecordHINFO(RecordReader rr)
+    public class RecordHINFO : Record, IRecordHINFO
+    {
+		public string CPU { get; private set; }
+        public string OS { get; private set; }
+
+        public RecordHINFO(RecordReader rr)
 		{
 			CPU = rr.ReadString();
 			OS = rr.ReadString();

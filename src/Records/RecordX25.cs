@@ -38,11 +38,16 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordX25 : Record
-	{
-		public string PSDNADDRESS;
+    public interface IRecordX25 : IRecord
+    {
+        string PSDNADDRESS { get; }
+    }
 
-		public RecordX25(RecordReader rr)
+    public class RecordX25 : Record, IRecordX25
+    {
+		public string PSDNADDRESS { get; private set; }
+
+        public RecordX25(RecordReader rr)
 		{
 			PSDNADDRESS = rr.ReadString();
 		}

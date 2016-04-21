@@ -46,13 +46,20 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordGPOS : Record
-	{
-		public string LONGITUDE;
-		public string LATITUDE;
-		public string ALTITUDE;
+    public interface IRecordGPOS : IRecord
+    {
+        string LONGITUDE { get; }
+        string LATITUDE { get; }
+        string ALTITUDE { get; }
+    }
 
-		public RecordGPOS(RecordReader rr)
+    public class RecordGPOS : Record, IRecordGPOS
+    {
+		public string LONGITUDE { get; private set; }
+        public string LATITUDE { get; private set; }
+        public string ALTITUDE { get; private set; }
+
+        public RecordGPOS(RecordReader rr)
 		{
 			LONGITUDE = rr.ReadString();
 			LATITUDE = rr.ReadString();

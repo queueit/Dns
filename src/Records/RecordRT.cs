@@ -60,12 +60,18 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordRT : Record
-	{
-		public ushort PREFERENCE;
-		public string INTERMEDIATEHOST;
+    public interface IRecordRT : IRecord
+    {
+        ushort PREFERENCE { get; }
+        string INTERMEDIATEHOST { get; }
+    }
 
-		public RecordRT(RecordReader rr)
+    public class RecordRT : Record, IRecordRT
+    {
+		public ushort PREFERENCE { get; private set; }
+        public string INTERMEDIATEHOST { get; private set; }
+
+        public RecordRT(RecordReader rr)
 		{
 			PREFERENCE = rr.ReadUInt16();
 			INTERMEDIATEHOST = rr.ReadDomainName();

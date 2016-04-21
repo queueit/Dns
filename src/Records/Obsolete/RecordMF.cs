@@ -30,9 +30,14 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordMF : Record
-	{
-		public string MADNAME;
+    public interface IRecordMF : IRecord
+    {
+        string MADNAME { get; }
+    }
+
+    public class RecordMF : Record, IRecordMF
+    {
+		public string MADNAME { get; private set; }
 
 		public RecordMF(RecordReader rr)
 		{

@@ -7,10 +7,15 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordUnknown : Record
-	{
-		public byte[] RDATA;
-		public RecordUnknown(RecordReader rr)
+    public interface IRecordUnknown : IRecord
+    {
+        byte[] RDATA { get; }
+    }
+
+    public class RecordUnknown : Record, IRecordUnknown
+    {
+		public byte[] RDATA { get; private set; }
+        public RecordUnknown(RecordReader rr)
 		{
 			// re-read length
 			ushort RDLENGTH = rr.ReadUInt16(-2);

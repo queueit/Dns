@@ -37,12 +37,18 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordRP : Record
-	{
-		public string MBOXDNAME;
-		public string TXTDNAME;
+    public interface IRecordRP : IRecord
+    {
+        string MBOXDNAME { get; }
+        string TXTDNAME { get; }
+    }
 
-		public RecordRP(RecordReader rr)
+    public class RecordRP : Record, IRecordRP
+    {
+		public string MBOXDNAME { get; private set; }
+        public string TXTDNAME { get; private set; }
+
+        public RecordRP(RecordReader rr)
 		{
 			//MBOXDNAME = rr.ReadString();
 			MBOXDNAME = rr.ReadDomainName();

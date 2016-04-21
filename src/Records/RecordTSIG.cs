@@ -28,19 +28,32 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordTSIG : Record
-	{
-		public string ALGORITHMNAME;
-		public long TIMESIGNED;
-		public UInt16 FUDGE;
-		public UInt16 MACSIZE;
-		public byte[] MAC;
-		public UInt16 ORIGINALID;
-		public UInt16 ERROR;
-		public UInt16 OTHERLEN;
-		public byte[] OTHERDATA;
+    public interface IRecordTSIG : IRecord
+    {
+        string ALGORITHMNAME { get; }
+        long TIMESIGNED { get; }
+        UInt16 FUDGE { get; }
+        UInt16 MACSIZE { get; }
+        byte[] MAC { get; }
+        UInt16 ORIGINALID { get; }
+        UInt16 ERROR { get; }
+        UInt16 OTHERLEN { get; }
+        byte[] OTHERDATA { get; }
+    }
 
-		public RecordTSIG(RecordReader rr)
+    public class RecordTSIG : Record, IRecordTSIG
+    {
+		public string ALGORITHMNAME { get; private set; }
+        public long TIMESIGNED { get; private set; }
+        public UInt16 FUDGE { get; private set; }
+        public UInt16 MACSIZE { get; private set; }
+        public byte[] MAC { get; private set; }
+        public UInt16 ORIGINALID { get; private set; }
+        public UInt16 ERROR { get; private set; }
+        public UInt16 OTHERLEN { get; private set; }
+        public byte[] OTHERDATA { get; private set; }
+
+        public RecordTSIG(RecordReader rr)
 		{
 			ALGORITHMNAME = rr.ReadDomainName();
 			TIMESIGNED = rr.ReadUInt32() << 32 | rr.ReadUInt32();

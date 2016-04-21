@@ -36,14 +36,22 @@ namespace Yamool.Net.DNS.Records
     using System;
     using System.Text;
 
-	public class RecordDS : Record
-	{
-		public UInt16 KEYTAG;
-		public byte ALGORITHM;
-		public byte DIGESTTYPE;
-		public byte[] DIGEST;
+    public interface IRecordDS : IRecord
+    {
+        UInt16 KEYTAG { get; }
+        byte ALGORITHM { get; }
+        byte DIGESTTYPE { get; }
+        byte[] DIGEST { get; }
+    }
 
-		public RecordDS(RecordReader rr)
+    public class RecordDS : Record, IRecordDS
+    {
+		public UInt16 KEYTAG { get; private set; }
+        public byte ALGORITHM { get; private set; }
+        public byte DIGESTTYPE { get; private set; }
+        public byte[] DIGEST { get; private set; }
+
+        public RecordDS(RecordReader rr)
 		{
 			ushort length = rr.ReadUInt16(-2);
 			KEYTAG = rr.ReadUInt16();

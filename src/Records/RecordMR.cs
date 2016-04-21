@@ -24,11 +24,16 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordMR : Record
-	{
-		public string NEWNAME;
+    public interface IRecordMR : IRecord
+    {
+        string NEWNAME { get; }
+    }
 
-		public RecordMR(RecordReader rr)
+    public class RecordMR : Record, IRecordMR
+    {
+		public string NEWNAME { get; private set; }
+
+        public RecordMR(RecordReader rr)
 		{
 			NEWNAME = rr.ReadDomainName();
 		}

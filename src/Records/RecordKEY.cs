@@ -42,14 +42,22 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordKEY : Record
-	{
-		public UInt16 FLAGS;
-		public byte PROTOCOL;
-		public byte ALGORITHM;
-		public string PUBLICKEY;
+    public interface IRecordKEY : IRecord
+    {
+        UInt16 FLAGS { get; }
+        byte PROTOCOL { get; }
+        byte ALGORITHM { get; }
+        string PUBLICKEY { get; }
+    }
 
-		public RecordKEY(RecordReader rr)
+    public class RecordKEY : Record, IRecordKEY
+    {
+		public UInt16 FLAGS { get; private set; }
+        public byte PROTOCOL { get; private set; }
+        public byte ALGORITHM { get; private set; }
+        public string PUBLICKEY { get; private set; }
+
+        public RecordKEY(RecordReader rr)
 		{
 			FLAGS = rr.ReadUInt16();
 			PROTOCOL = rr.ReadByte();

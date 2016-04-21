@@ -39,12 +39,18 @@ namespace Yamool.Net.DNS.Records
     using System;
     using System.Text;
 
-	public class RecordNSAP : Record
-	{
-		public ushort LENGTH;
-		public byte[] NSAPADDRESS;
+    public interface IRecordNSAP : IRecord
+    {
+        ushort LENGTH { get; }
+        byte[] NSAPADDRESS { get; }
+    }
 
-		public RecordNSAP(RecordReader rr)
+    public class RecordNSAP : Record, IRecordNSAP
+    {
+		public ushort LENGTH { get; private set; }
+        public byte[] NSAPADDRESS { get; private set; }
+
+        public RecordNSAP(RecordReader rr)
 		{
 			LENGTH = rr.ReadUInt16();
 			NSAPADDRESS = rr.ReadBytes(LENGTH);

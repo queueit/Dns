@@ -71,14 +71,22 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordSRV : Record
-	{
-		public ushort PRIORITY;
-		public ushort WEIGHT;
-		public ushort PORT;
-		public string TARGET;
+    public interface IRecordSRV : IRecord
+    {
+        ushort PRIORITY { get; }
+        ushort WEIGHT { get; }
+        ushort PORT { get; }
+        string TARGET { get; }
+    }
 
-		public RecordSRV(RecordReader rr)
+    public class RecordSRV : Record, IRecordSRV
+    {
+		public ushort PRIORITY { get; private set; }
+        public ushort WEIGHT { get; private set; }
+        public ushort PORT { get; private set; }
+        public string TARGET { get; private set; }
+
+        public RecordSRV(RecordReader rr)
 		{
 			PRIORITY = rr.ReadUInt16();
 			WEIGHT = rr.ReadUInt16();

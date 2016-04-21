@@ -74,17 +74,28 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordSOA : Record
-	{
-		public string MNAME;
-		public string RNAME;
-		public uint SERIAL;
-		public uint REFRESH;
-		public uint RETRY;
-		public uint EXPIRE;
-		public uint MINIMUM;
+    public interface IRecordSOA : IRecord
+    {
+        string MNAME { get; }
+        string RNAME { get; }
+        uint SERIAL { get; }
+        uint REFRESH { get; }
+        uint RETRY { get; }
+        uint EXPIRE { get; }
+        uint MINIMUM { get; }
+    }
 
-		public RecordSOA(RecordReader rr)
+    public class RecordSOA : Record, IRecordSOA
+    {
+		public string MNAME { get; private set; }
+		public string RNAME { get; private set; }
+        public uint SERIAL { get; private set; }
+        public uint REFRESH { get; private set; }
+        public uint RETRY { get; private set; }
+        public uint EXPIRE { get; private set; }
+        public uint MINIMUM { get; private set; }
+
+        public RecordSOA(RecordReader rr)
 		{
 			MNAME = rr.ReadDomainName();
 			RNAME = rr.ReadDomainName();

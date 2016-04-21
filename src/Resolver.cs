@@ -13,10 +13,71 @@ namespace Yamool.Net.DNS
     using System.Net.Sockets;
     using System.Net.NetworkInformation;
 
+    public interface IResolver
+    {
+        /// <summary>
+        /// Query and get a resource record on specified DNS Server.
+        /// </summary>
+        /// <param name="host">The name of host to query.</param>
+        /// <param name="qType">The QTYPE to use</param>
+        /// <returns>Return an asynchronsous operation</returns>
+        Task<IResponse> QueryAsync(string host, QTYPE qType);
+
+        /// <summary>
+        /// Query and get a resource record on specified DNS Server.
+        /// </summary>
+        /// <param name="host">The name of host to query.</param>
+        /// <param name="qType">The QTYPE to use</param>
+        /// <param name="qClass">The QCLASS to use</param>
+        /// <returns>Return an asynchronsous operation.</returns>
+        Task<IResponse> QueryAsync(string host, QTYPE qType, QCLASS qClass);
+
+        /// <summary>
+        ///	Resolves a host name or IP address to an <see cref="System.Net.IPHostEntry"/> instance.
+        /// </summary>
+        /// <param name="hostNameOrAddress">The host name or IP address to resolve.</param>
+        /// <returns>
+        ///		An System.Net.IPHostEntry instance that contains address information about
+        ///		the host specified in hostNameOrAddress. 
+        ///</returns>
+        Task<IPHostEntry> GetHostEntryAsync(string hostNameOrAddress);
+
+        /// <summary>
+        ///		Resolves an IP address to an <see cref="System.Net.IPHostEntry"/> instance.
+        /// </summary>
+        /// <param name="ip">An IP address.</param>
+        /// <returns>
+        ///		An System.Net.IPHostEntry instance that contains address information about
+        ///		the host specified in address.
+        ///</returns>
+        Task<IPHostEntry> GetHostEntryAsync(IPAddress ip);
+
+        /// <summary>
+        /// Gets or sets protocol to use.Default use UDP protocol.
+        /// </summary>
+        TransportType TransportType { get; set; }
+
+        /// <summary>
+        /// Gets or sets timeout in milliseconds.
+        /// Default value is 3000 milliseconds.
+        /// </summary>
+        int Timeout { get; set; }
+
+        /// <summary>
+        /// Gets or sets number of retries before giving up.Default value is 5.
+        /// </summary>
+        int Retries { get; set; }
+
+        /// <summary>
+        /// Gets or sets list of DNS servers to use
+        /// </summary>
+        EndPoint[] DnsServers { get; set; }
+    }
+
     /// <summary>
     /// The Resolver class lets lookup Domain Name System (DNS) resource records.
     /// </summary>
-    public class Resolver
+    public class Resolver : IResolver
     {
         private static int _uid = new Random().Next();
         private static EndPoint[] _dnsServerDefault = null;
@@ -58,7 +119,7 @@ namespace Yamool.Net.DNS
         /// <param name="host">The name of host to query.</param>
         /// <param name="qType">The QTYPE to use</param>
         /// <returns>Return an asynchronsous operation</returns>
-        public Task<Response> QueryAsync(string host, QTYPE qType)
+        public Task<IResponse> QueryAsync(string host, QTYPE qType)
         {
             return this.QueryAsync(host, qType, QCLASS.IN);
         }
@@ -70,7 +131,7 @@ namespace Yamool.Net.DNS
         /// <param name="qType">The QTYPE to use</param>
         /// <param name="qClass">The QCLASS to use</param>
         /// <returns>Return an asynchronsous operation.</returns>
-        public Task<Response> QueryAsync(string host, QTYPE qType, QCLASS qClass)
+        public Task<IResponse> QueryAsync(string host, QTYPE qType, QCLASS qClass)
         {
             var question = new Question(host, qType, qClass);
             var request = new Request()
@@ -127,7 +188,7 @@ namespace Yamool.Net.DNS
         public Task<IPHostEntry> GetHostEntryAsync(IPAddress ip)
         {
             var tcs = new TaskCompletionSource<IPHostEntry>();
-            this.QueryAsync(GetArpaFromIp(ip), QTYPE.PTR, QCLASS.IN).ContinueWith((Task<Response> requestTask) =>
+            this.QueryAsync(GetArpaFromIp(ip), QTYPE.PTR, QCLASS.IN).ContinueWith((Task<IResponse> requestTask) =>
             {
                 if (requestTask.IsCanceled)
                 {
@@ -174,7 +235,7 @@ namespace Yamool.Net.DNS
         private Task<IPHostEntry> MakeEntryAsync(string hostName)
         {
             var tcs = new TaskCompletionSource<IPHostEntry>();
-            this.QueryAsync(hostName, QTYPE.A, QCLASS.IN).ContinueWith((Task<Response> requestTask) =>
+            this.QueryAsync(hostName, QTYPE.A, QCLASS.IN).ContinueWith((Task<IResponse> requestTask) =>
             {
                 if (requestTask.IsCanceled)
                 {

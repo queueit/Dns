@@ -35,12 +35,18 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordAFSDB : Record
-	{
-		public ushort SUBTYPE;
-		public string HOSTNAME;
+    public interface IRecordAFSDB : IRecord
+    {
+        ushort SUBTYPE { get; }
+        string HOSTNAME { get; }
+    }
 
-		public RecordAFSDB(RecordReader rr)
+    public class RecordAFSDB : Record, IRecordAFSDB
+    {
+		public ushort SUBTYPE { get; private set; }
+        public string HOSTNAME { get; private set; }
+
+        public RecordAFSDB(RecordReader rr)
 		{
 			SUBTYPE = rr.ReadUInt16();
 			//HOSTNAME = rr.ReadString();

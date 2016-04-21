@@ -143,7 +143,7 @@
            Assert.Throws<TaskCanceledException>(async () => await resolver.QueryAsync(host, QTYPE.A).ConfigureAwait(false));            
         }
         
-        private void PrintResponse(Response response)
+        private void PrintResponse(IResponse response)
         {           
             Console.WriteLine(";; Got answer:");
 

@@ -26,9 +26,14 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordPTR : Record
-	{
-		public string PTRDNAME;
+    public interface IRecordPTR : IRecord
+    {
+        string PTRDNAME { get;  }
+    }
+
+    public class RecordPTR : Record, IRecordPTR
+    {
+		public string PTRDNAME { get; private set; }
 
 		public RecordPTR(RecordReader rr)
 		{

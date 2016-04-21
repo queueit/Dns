@@ -27,7 +27,7 @@ namespace Yamool.Net.DNS
         private bool _disposed;
 
         private ProtocolType _protocolType;
-        private TaskCompletionSource<Response> _tcs;
+        private TaskCompletionSource<IResponse> _tcs;
         private Request _request;
         private Timer _timeoutTimer = null;
         private int _state;
@@ -52,9 +52,9 @@ namespace Yamool.Net.DNS
             _request = request;
         }
 
-        public Task<Response> GetResponseAsync(EndPoint remoteEP)
+        public Task<IResponse> GetResponseAsync(EndPoint remoteEP)
         {
-            _tcs = new TaskCompletionSource<Response>(this);
+            _tcs = new TaskCompletionSource<IResponse>(this);
             if (_request.Timeout > 0)
             {
                 _timeoutTimer = new Timer(HandleTimeout, null, _request.Timeout, Timeout.Infinite);

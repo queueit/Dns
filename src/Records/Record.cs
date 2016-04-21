@@ -7,11 +7,19 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public abstract class Record
-	{
+    public interface IRecord
+    {
+        /// <summary>
+        /// The Resource Record this RDATA record belongs to
+        /// </summary>
+        RR RR { get; }
+    }
+
+    public abstract class Record : IRecord
+    {
 		/// <summary>
 		/// The Resource Record this RDATA record belongs to
 		/// </summary>
-		public RR RR;
-	}
+		public RR RR { get; protected set; }
+    }
 }

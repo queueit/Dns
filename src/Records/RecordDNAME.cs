@@ -22,11 +22,16 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordDNAME : Record
-	{
-		public string TARGET;
+    public interface IRecordDNAME : IRecord
+    {
+        string TARGET { get; }
+    }
 
-		public RecordDNAME(RecordReader rr)
+    public class RecordDNAME : Record, IRecordDNAME
+    {
+		public string TARGET { get; private set; }
+
+        public RecordDNAME(RecordReader rr)
 		{
 			TARGET = rr.ReadDomainName();
 		}

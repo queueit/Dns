@@ -78,13 +78,20 @@ namespace Yamool.Net.DNS.Records
 {
     using System;
 
-	public class RecordPX : Record
-	{
-		public UInt16 PREFERENCE;
-		public string MAP822;
-		public string MAPX400;
+    public interface IRecordPX : IRecord
+    {
+        UInt16 PREFERENCE { get; }
+        string MAP822 { get; }
+        string MAPX400 { get; }
+    }
 
-		public RecordPX(RecordReader rr)
+    public class RecordPX : Record, IRecordPX
+    {
+		public UInt16 PREFERENCE { get; private set; }
+        public string MAP822 { get; private set; }
+        public string MAPX400 { get; private set; }
+
+        public RecordPX(RecordReader rr)
 		{
 			PREFERENCE = rr.ReadUInt16();
 			MAP822 = rr.ReadDomainName();
